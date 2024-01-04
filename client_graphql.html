@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <button onclick="getFilms()">获取 getFilms (graphql)</button><br><br>
+        <button onclick="getFilm()">获取 getFilm (graphql)</button><br><br>
+        <button onclick="createFilm()">创建
+            createFilm(graphql)</button><br><br>
+        <button onclick="updateFilm()">更新
+            updateFilm(graphql)</button><br><br>
+        <button onclick="deleteFilm()">删除
+            deleteFilm(graphql)</button><br><br>
+    </div>
+    <script>
+        const URL = 'http://localhost:4001/graphql'
+        //获取所有
+        function getFilms() {
+            try {
+                fetch(URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        query: `
+                            query {
+                                getFilms {
+                                        name,
+                                        poster,
+                                        price
+                                    }
+                                }
+                        `,
+                    })
+                }).then(res => res.json()).then(res => {
+                    console.log(res.data.getFilms);
+                })
+            } catch (error) {
+                console.error(err)
+            }
+        }
+        //获取单个
+        function getFilm() {
+            try {
+                fetch(URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        query: `
+                            query ( $name:String! ) {
+                                getFilm(name:$name) {
+                                        name,
+                                        poster,
+                                        price
+                                    }
+                                }
+                        `,
+                        variables: {
+                            name: "沙河尚666",
+                        }
+                    })
+                }).then(res => res.json()).then(res => {
+                    console.log(res.data.getFilm);
+                })
+            } catch (error) {
+                console.error(err)
+            }
+        }
+        //增加
+        function createFilm() {
+            try {
+                fetch(URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        query: `
+                            mutation ( $input: FilmInput ) {
+                                createFilm(input:$input) {
+                                    name,
+                                    poster,
+                                    price
+                                }
+                            }
+                            `,
+                        variables: {
+                            input: {
+                                name: "唐僧",
+                                poster: "紧箍咒",
+                                price: 999,
+                            },
+                        },
+                    }),
+                }).then(res => res.json()).then(res => {
+                    console.log(res.data.createFilm);
+                })
+            } catch (error) {
+                console.error(err)
+            }
+        }
+        //修改
+        function updateFilm() {
+            try {
+                fetch(URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        query: `
+                            mutation ( $_id:String! ,$input: FilmInput) {
+                                updateFilm(_id:$_id,input:$input) {
+                                        name,
+                                        poster,
+                                        price
+                                    }
+                                }
+                        
+                        `,
+                        variables: {
+                            _id: "65969e7e801e567a33a2f33f",
+                            input: {
+                                name: "唐僧666",
+                                poster: "紧箍咒6666",
+                                price: 666,
+                            },
+                        }
+                    })
+                }).then(res => res.json()).then(res => {
+                    console.log(res.data.updateFilm);
+                })
+            } catch (error) {
+                console.error(err)
+            }
+        }
+
+        //删除
+        function deleteFilm() {
+            try {
+                fetch(URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        query: `
+                            mutation ( $_id:String! ) {
+                                deleteFilm(_id:$_id) {
+                                        name,
+                                        poster,
+                                        price
+                                    }
+                                }
+                        `,
+                        variables: {
+                            _id: "65969e7e801e567a33a2f33f",
+                        }
+                    })
+                }).then(res => res.json()).then(res => {
+                    console.log(res.data.deleteFilm);
+                })
+            } catch (error) {
+                console.error(err)
+            }
+        }
+    </script>
+</body>
+
+</html>

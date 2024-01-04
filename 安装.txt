@@ -1,0 +1,8 @@
+url: https://graphql.org/graphql-js/running-an-express-graphql-server/
+
+运行 GraphQL API 服务器的最简单方法是使用Express，这是一种流行的 Node.js Web 应用程序框架。您将需要安装两个额外的依赖项：
+
+npm install express express-graphql graphql  mongoose --save
+
+1.运行  node graphql.js
+打开 html文件
